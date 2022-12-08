@@ -1,7 +1,12 @@
+window.onload = () => {
+  //   clickEvent();
+  const color = ColorChange();
+  target.style.backgroundColor = color;
+};
 const target = document.getElementById("root");
+const form = document.getElementById("form");
 const btn = document.getElementById("btn");
 const colorCode = document.getElementById("colorCode");
-const copyBtn = document.getElementById("copy-btn");
 let rgbHex;
 const ColorChange = () => {
   const red = Math.floor(Math.random() * 255).toString(16);
@@ -11,16 +16,18 @@ const ColorChange = () => {
   rgbHex = `#${red}${green}${blue}`;
   return rgbHex;
 };
-function clickEvent() {
-  const rgbHex = ColorChange();
-  target.style.backgroundColor = rgbHex;
-  colorCode.innerHTML = rgbHex;
+/**
+* @param {string} e
+*/
+function clickEvent(e) {
+  e.preventDefault();
+  const value = e.target.hexColor.value;
+  if (value.length !==7) {
+    return false
+  }
+  if (value[0]!=="#") {
+    return false
+  }
+  target.style.backgroundColor = value;
 }
-window.onload = () => {
-  clickEvent();
-};
-btn.addEventListener("click", clickEvent);
-copyBtn.addEventListener("click", function copy() {
-  navigator.clipboard.writeText(rgbHex);
-  alert(`copied ${rgbHex}`);
-});
+form.addEventListener("submit", clickEvent);
